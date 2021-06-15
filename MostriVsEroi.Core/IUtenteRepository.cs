@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MostriVSEroi.Core
 {
-    public interface IMostroReporisotry
+    public interface IUtenteRepository
     {
-        public List<Mostro> FetchMostri();
+        Utente GetUser(Utente utente);
+        void AddUser(Utente utente);
     }
 }

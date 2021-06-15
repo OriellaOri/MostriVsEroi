@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MostriVSEroi.MockRepository
 {
-    public class MostroMockRepository : IMostroReporisotry
+    public class MostroMockRepository : IMostroRepository
     {
         public List<Mostro> FetchMostri()
         {

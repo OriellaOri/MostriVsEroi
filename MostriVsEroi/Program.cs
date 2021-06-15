@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MostriVSEroi.View;
+using System;
 
 namespace MostriVsEroi
 {
@@ -6,7 +7,7 @@ namespace MostriVsEroi
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu.MainMenu();
         }
     }
 }

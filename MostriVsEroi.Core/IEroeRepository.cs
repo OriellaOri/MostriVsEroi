@@ -8,6 +8,8 @@ namespace MostriVSEroi.Core
 {
     public interface IEroeRepository
     {
-        public List<Eroe> FetchEroi(Utente utente)
+        public List<Eroe> FetchEroi(Utente utente);
+        void AddNewEroe(Eroe newEroe, Utente utente);
+        void DeleteEroe(Utente utente, Eroe eroe);
     }
 }

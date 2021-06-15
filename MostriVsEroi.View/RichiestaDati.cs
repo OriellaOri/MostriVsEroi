@@ -18,7 +18,6 @@ namespace MostriVSEroi.View
             string password = Console.ReadLine();
 
             // CONTROLLARE CHE UTENTE SIA VALIDO
-            // TODO FAR TORNARE UN UTENTE
             return UtenteViewServices.GetUtente(username, password);
 
         }

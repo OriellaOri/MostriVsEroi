@@ -36,5 +36,10 @@ namespace MostriVSEroi.Core
             PuntiEsperienza = esp;
 
         }
+
+        public void Attacca(Mostro mostro)
+        {
+            mostro.PuntiVita = mostro.PuntiVita - Arma.Danno ;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.View;
+using MostriVSEroi.Core;
 using System;
 
 namespace MostriVSEroi.View
@@ -24,7 +25,7 @@ namespace MostriVSEroi.View
                         AccediView.Accedi();
                         break;
                     case "2":
-                        // TODO REGISTRA UTENTE 
+                        RegistraView.Registra(); 
                         break;
                     case "0":
                         Console.WriteLine("Ciao alla prossima");
@@ -41,11 +42,10 @@ namespace MostriVSEroi.View
         internal static void MenuNonAdmin(Utente utente)
         {
             bool vuoiContinuare = true;
+            Console.WriteLine($"Bentornato {utente.Username}\n");
             do
             {
-                Console.WriteLine($"Bentornato {utente.Username}\n\n");
-                Console.WriteLine("Cosa vuoi fare?\n\n");
-
+                Console.WriteLine("Cosa vuoi fare?\n");
                 Console.WriteLine("1 x GIOCARE");
                 Console.WriteLine("2 x CREA EROE");
                 Console.WriteLine("3 x ELIMINA EROE");
@@ -59,10 +59,12 @@ namespace MostriVSEroi.View
                         GiocaView.Gioca(utente);
                         break;
                     case "2":
-                        // CREA ERORE
+                        // CREA EROE
+                        EroeView.CreaEroe(utente);
                         break;
                     case "3":
                         // ELIMINA EROE
+                        EroeView.EliminaEroe(utente);
                         break;
                     case "0":
                         MainMenu();

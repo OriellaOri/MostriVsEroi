@@ -4,4 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MostriVsEroi.Core\MostriVsEroi.Core.csproj" />
+    <ProjectReference Include="..\MostriVsEroi.MockRepository\MostriVsEroi.MockRepository.csproj" />
+  </ItemGroup>
+
 </Project>

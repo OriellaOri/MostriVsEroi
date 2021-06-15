@@ -21,5 +21,9 @@ namespace MostriVSEroi.Core
             Arma = arma;
             PuntiVita = vita;
         }
+        public void Attacca(Eroe eroe)
+        {
+            eroe.PuntiVita = eroe.PuntiVita - Arma.Danno ;
+        }
     }
 }
