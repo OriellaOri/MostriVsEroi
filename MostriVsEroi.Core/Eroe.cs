@@ -39,7 +39,7 @@ namespace MostriVSEroi.Core
 
         public void Attacca(Mostro mostro)
         {
-            mostro.PuntiVita = mostro.PuntiVita - Arma.Danno ;
+            mostro.PuntiVita -= Arma.Danno ;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace MostriVsEroi.View
     {
         public static void Registra()
         {
+            /* RICHIESTA USERNAME E PASSWORD */
             Utente utente = RichiestaDati.InserisciUsernamePassword();
             UtenteServices.AddUtente(utente);
             Console.WriteLine($"Utente {utente.Username} aggiunto correttamente!\n");
@@ -23,6 +24,9 @@ namespace MostriVsEroi.View
             }
             else if (utente.IsAuthenticated && !utente.IsAdmin)
             {
+                /* UNA VOLTA REGISTRATO GLI FACCIO CREARE UN EROE PER INZIARE A GIOCARE*/
+                Console.WriteLine("--- IL TUO PRIMO EROE ---\n");
+                EroeView.CreaEroe(utente);
                 Menu.MenuNonAdmin(utente);
             }
 

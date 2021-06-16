@@ -1,4 +1,5 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.DbRepository;
 using MostriVsEroi.MockRepository;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ namespace MostriVsEroi.Services
 {
     static public class CategoriaServices
     {
-        static ICategoriaRepository cmr = new CategoriaMockRepository();
-        public static List<string> GetCategorie()
+        static ICategoriaRepository cmr = new CategoriaDbRepository();
+        public static List<string> GetCategorieEroi()
         {
-            return cmr.FetchCategorie();
+            return cmr.FetchCategorieEroi();
         }
     }
 }

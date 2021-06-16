@@ -1,4 +1,5 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.DbRepository;
+using MostriVSEroi.Core;
 using MostriVSEroi.MockRepository;
 using System;
 using System.Collections.Generic;
@@ -10,27 +11,12 @@ namespace MostriVSEroi.Services
 {
     public static class EroeServices
     {
-        static EroeMockRepository emr = new EroeMockRepository();
+        static IEroeRepository emr = new EroeDbRepository();
 
         public static List<Eroe> GetEroi(Utente utente)
         {
             return emr.FetchEroi(utente);
-        }
-
-        /* METODO PER CONTROLLARE SE IL NOME DELL'EROE è PRESENTE NELLA LISTA DI EROI DELL'UTENTE 
-         * PER LA SCELTA EROE IN GIOCA VIEW */
-        //public static Eroe FetchEroe(string nomeEroe, Utente utente)
-        //{
-        //    List<Eroe> eroi = GetEroi(utente);
-        //    foreach (Eroe e in eroi)
-        //    {
-        //        if (e.Nome.Equals(nomeEroe, StringComparison.OrdinalIgnoreCase))
-        //        {
-        //            return e;
-        //        }
-        //    }
-        //    return null;
-        //}
+        }    
 
         public static void AddEroe(Eroe newEroe, Utente utente)
         {

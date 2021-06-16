@@ -25,7 +25,7 @@ namespace MostriVSEroi.View
             }
             else
             {
-                Console.WriteLine("Devi prima registarti");
+                Console.WriteLine("\n!! Devi prima registarti !! \n");
             }
         }
     }

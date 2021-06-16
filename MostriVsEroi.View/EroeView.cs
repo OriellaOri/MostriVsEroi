@@ -13,13 +13,14 @@ namespace MostriVsEroi.View
 {
     public class EroeView
     {
-        // RECUPERO LE CATEGORIE DISPONIBILI DAL MOCK >> POI DB 
-        static List<string> categorie = CategoriaServices.GetCategorie();
-        // RECUPERO LE ARMI DISPONIBILI DEL MOCK >> POI DB FILTARE PER EROE
-        static List<Arma> armi = ArmaServices.GetArmi();
+        // RECUPERO LE CATEGORIE EROI DISPONIBILI DAL DB 
+        static List<string> categorie = CategoriaServices.GetCategorieEroi();
 
         internal static void CreaEroe(Utente utente)
         {
+            // conversione scelta 
+            bool conversione;
+
             /* RICHIESTA NOME */
             string nome;
             do
@@ -30,22 +31,24 @@ namespace MostriVsEroi.View
             } while (String.IsNullOrEmpty(nome));
 
             /* RICHIETA CATEGORIA */
-            string categoriaScelta;
+            int sceltaCategoria;
             do
             {
-                Console.WriteLine("Inserisci categorie tra le seguenti");
+                int contaggio = 1;
                 foreach (string s in categorie)
                 {
-                    Console.WriteLine(s);
+                    Console.WriteLine($"Premi {contaggio++} per {s}");
                 }
-                categoriaScelta = Console.ReadLine();
-            } while (String.IsNullOrEmpty(categoriaScelta) || !categorie.Contains(categoriaScelta));
+                conversione = int.TryParse(Console.ReadLine(), out sceltaCategoria);
+            } while (!conversione || sceltaCategoria < 1 || sceltaCategoria > categorie.Count);
+            // assegno la categoria tramite il numero inserito della lista  
+            string categoriaSelezioanta = categorie[--sceltaCategoria];
+
+            /* RECUPERO LE ARMI DISPONIBILI PER LA CATEGORIA EROE SOPRA SELEZIONATA */
+            List<Arma> armi = ArmaServices.GetArmiEroe(categoriaSelezioanta);
 
             /* RICHIESTA ARMA */
-            // TODO: filtare le armi a seconda della categoria scelta 
             int sceltaArma;
-            // conversione scelta 
-            bool conversione;
             do
             {
                 // contatore lista armi 
@@ -61,7 +64,7 @@ namespace MostriVsEroi.View
             Arma nuovaArma = armi[--sceltaArma];
 
             // creo il nuovo eroe 
-            Eroe eroeCreato = new Eroe(nome, categoriaScelta, nuovaArma);
+            Eroe eroeCreato = new Eroe(nome, categoriaSelezioanta, nuovaArma);
 
             // aggiungo l'eroe creato alla lista degli eroi del utente che poi sara nel DB
             EroeServices.AddEroe(eroeCreato, utente);
@@ -87,7 +90,7 @@ namespace MostriVsEroi.View
                 }
                 conversione = int.TryParse(Console.ReadLine(), out eroeScelto);
             } while (!conversione || eroeScelto < 1 || eroeScelto > eroiUtente.Count);
-            // creo l'ereo effettivo da elimianre
+            // creo l'eroe effettivo da elimianre
             Eroe eroeElimanto = eroiUtente[--eroeScelto];
 
             // richiamo il serivices per eliminarlo 

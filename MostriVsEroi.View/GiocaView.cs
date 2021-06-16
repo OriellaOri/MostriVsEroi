@@ -129,13 +129,7 @@ namespace MostriVSEroi.View
             } while (!conversione || eroeScelto < 1 || eroeScelto > eroi.Count);
 
             return eroi[--eroeScelto];
-            //Console.WriteLine("Inserisci nome del Eroe con cui vuoi giocare");
-            //string nomeEroe = Console.ReadLine();
-            //Eroe eroeScelto = EroeServices.RecuperaEroe(nomeEroe,utente);
-            //if(eroeScelto == null)
-            //{
-            //    Console.WriteLine("Scelta non valida");
-            //}
+           
         }
     }
 }

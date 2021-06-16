@@ -15,5 +15,15 @@ namespace MostriVsEroi.MockRepository
             return new List<string> { "Guerriero", "Mago" };
             
         }
+
+        public List<string> FetchCategorieEroi()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> FetchCategorieMostri()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

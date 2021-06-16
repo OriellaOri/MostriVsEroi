@@ -11,12 +11,12 @@ namespace MostriVSEroi.View
             bool vuoiContinuare = true;
             do
             {
-                Console.WriteLine("Bentornato\n\n");
-                Console.WriteLine("Cosa vuoi fare?\n\n");
+                Console.WriteLine("Bentornato\n");
+                Console.WriteLine("Cosa vuoi fare?\n");
 
                 Console.WriteLine("1 x accedere");
                 Console.WriteLine("2 x registrati");
-                Console.WriteLine("0 x uscire\n\n");
+                Console.WriteLine("0 x uscire\n");
 
                 string scelta = Console.ReadLine();
                 switch (scelta)
@@ -49,7 +49,7 @@ namespace MostriVSEroi.View
                 Console.WriteLine("1 x GIOCARE");
                 Console.WriteLine("2 x CREA EROE");
                 Console.WriteLine("3 x ELIMINA EROE");
-                Console.WriteLine("0 x ESCI\n\n");
+                Console.WriteLine("0 x ESCI\n");
 
                 string scelta = Console.ReadLine();
                 switch (scelta)
@@ -67,7 +67,7 @@ namespace MostriVSEroi.View
                         EroeView.EliminaEroe(utente);
                         break;
                     case "0":
-                        MainMenu();
+                        Console.WriteLine("Ciao alla prossima");
                         vuoiContinuare = false;
                         break;
                     default:

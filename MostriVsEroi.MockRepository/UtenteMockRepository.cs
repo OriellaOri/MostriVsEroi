@@ -10,7 +10,7 @@ namespace MostriVSEroi.MockRepository
 
         public Utente GetUser(Utente utente)
         {
-            // essendo un mokc è sempre autenticato 
+            // essendo un mock è sempre autenticato 
             // con DB controllo effettivo se presente 
             utente.IsAuthenticated = true; 
             return utente;

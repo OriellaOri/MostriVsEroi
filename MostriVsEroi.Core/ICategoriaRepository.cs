@@ -10,5 +10,7 @@ namespace MostriVsEroi.Core
     {
         // carica tutte le categorie presenti nel DB
         public List<string> FetchCategorie();
+        public List<string> FetchCategorieEroi();
+        public List<string> FetchCategorieMostri();
     }
 }

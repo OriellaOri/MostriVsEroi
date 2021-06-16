@@ -1,4 +1,5 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.DbRepository;
 using MostriVsEroi.MockRepository;
 using MostriVSEroi.Core;
 using System;
@@ -11,10 +12,10 @@ namespace MostriVsEroi.Services
 {
     public class ArmaServices
     {
-        static IArmaRepository amr = new ArmaMockRepository();
-        public static List<Arma> GetArmi()
+        static IArmaRepository amr = new ArmaDbRepository();
+        public static List<Arma> GetArmiEroe(string categoria)
         {
-            return amr.FetchArmi();
+            return amr.FetchArmiEroe(categoria);
         }
     }
 }

@@ -12,8 +12,8 @@ namespace MostriVSEroi.MockRepository
         // fake lista eroi di qualsiasi utente logga 
         static List<Eroe> eroi = new List<Eroe>()
         {
-        new Eroe("Elfo", "Guerriero", new Arma("Alabarda", 15)),
-        new Eroe("Maga Magò", "Maga", new Arma("Bastone Magico", 10), 5, 100, 20)
+            new Eroe("Elfo", "Guerriero", new Arma("Alabarda", 15)),
+            new Eroe("Maga Magò", "Maga", new Arma("Bastone Magico", 10), 5, 100, 20)
         };
 
         public void AddNewEroe(Eroe newEroe, Utente utente)

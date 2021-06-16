@@ -1,4 +1,5 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.DbRepository;
+using MostriVSEroi.Core;
 using MostriVSEroi.MockRepository;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace MostriVSEroi.Services
 {
     public class MostroServices
     {
-        static MostroMockRepository mmr = new MostroMockRepository();
+        static IMostroRepository mmr = new MostroDbRepository();
 
         public static List<Mostro> GetMostri()
         {

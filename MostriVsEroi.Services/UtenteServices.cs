@@ -1,4 +1,5 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.DbRepository;
+using MostriVSEroi.Core;
 using MostriVSEroi.MockRepository;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace MostriVSEroi.Services
 {
     public class UtenteServices
     {
-        static UtenteMockRepository umr = new UtenteMockRepository();
+        static IUtenteRepository umr = new UtenteDbRepository();
         public static Utente VerifyAuthentication(Utente utente)
         {
             return umr.GetUser(utente);

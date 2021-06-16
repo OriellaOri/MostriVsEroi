@@ -10,12 +10,12 @@ namespace MostriVsEroi.Core
     public interface IArmaRepository
     {
         // mi da tutte le armi presenti in DB
-        public List<Arma> FetchArmi();
+        public List<Arma> FetchArmiEroi();
 
         //mi da solo le armi associate all'eroe
-        public List<Arma> FetchArmi(Eroe eroe);
+        public List<Arma> FetchArmiEroe(string categoriaEroe);
 
         // mi da solo le armi associate al mostro
-        //public List<Arma> FetchArmi(Mostro mostro;
+        public List<Arma> FetchArmiMostro(Mostro mostro);
     }
 }
