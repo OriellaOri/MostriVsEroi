@@ -168,10 +168,10 @@ namespace MostriVsEroi.DbRepository
                 var espereinza = (int)reader[3];
                 var username = (string)reader[4];
 
-                Eroe e = new Eroe(nomeEroe, categoriaEroe, livelloEroe, espereinza);
+                //Eroe e = new Eroe(nomeEroe, categoriaEroe, livelloEroe, espereinza);
                 // TODO costruttore eroe per crare classifca 
                 // TODO utente per stamparlo poi nella view 
-                eroiUtente.Add(e);
+                //eroiUtente.Add(e);
             }
             connection.Close();
             return eroiUtente;
