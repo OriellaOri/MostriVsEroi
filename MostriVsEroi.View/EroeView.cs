@@ -1,5 +1,4 @@
-﻿using MostriVsEroi.Core;
-using MostriVsEroi.Services;
+﻿using MostriVsEroi.Services;
 using MostriVSEroi.Core;
 using MostriVSEroi.Services;
 using System;
@@ -96,6 +95,13 @@ namespace MostriVsEroi.View
             // richiamo il serivices per eliminarlo 
             EroeServices.RemoveEroe(utente, eroeElimanto);
             Console.WriteLine($"Eroe {eroeElimanto.Nome} eliminato ");
+        }
+
+        internal static void MostraClassifica()
+        {
+            /* VISUALIZZARE I MILGIORI 10 EROI IN ORIDINE DI LIVELLO E PUNTI ACCUMULATI CON NICKNAME DEL GIOCATORE */
+            List<Eroe> eroi = EroeServices.GetEroiClassifca();
+
         }
     }
 }

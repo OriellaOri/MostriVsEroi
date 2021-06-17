@@ -16,6 +16,6 @@ namespace MostriVsEroi.Core
         public List<Arma> FetchArmiEroe(string categoriaEroe);
 
         // mi da solo le armi associate al mostro
-        public List<Arma> FetchArmiMostro(Mostro mostro);
+        public List<Arma> FetchArmiMostro(string categoriaMostro);
     }
 }

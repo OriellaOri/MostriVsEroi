@@ -17,6 +17,11 @@ namespace MostriVSEroi.Services
         {
             umr.AddUser(utente);
         }
-       
+
+        internal static void UpdateAdmin(Utente utente)
+        {
+            utente.IsAdmin = true;
+            umr.UpdateAdmin(utente);
+        }
     }
 }

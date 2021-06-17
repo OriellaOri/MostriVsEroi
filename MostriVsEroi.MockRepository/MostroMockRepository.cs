@@ -9,6 +9,11 @@ namespace MostriVSEroi.MockRepository
 {
     public class MostroMockRepository : IMostroRepository
     {
+        public void AddNewMostro(Mostro m)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Mostro> FetchMostri()
         {
             List<Mostro> mostri = new List<Mostro>();

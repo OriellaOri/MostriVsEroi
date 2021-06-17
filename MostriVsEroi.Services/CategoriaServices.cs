@@ -16,5 +16,9 @@ namespace MostriVsEroi.Services
         {
             return cmr.FetchCategorieEroi();
         }
+        public static List<string> GetCategorieMostri()
+        {
+            return cmr.FetchCategorieMostri();
+        }
     }
 }

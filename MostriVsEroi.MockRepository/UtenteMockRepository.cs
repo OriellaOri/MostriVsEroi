@@ -20,5 +20,10 @@ namespace MostriVSEroi.MockRepository
         {
             utenti.Add(utente);
         }
+
+        public void UpdateAdmin(Utente utente)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

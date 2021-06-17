@@ -19,21 +19,48 @@ namespace MostriVSEroi.View
             Mostro mostro = MostroServices.SceltaMostro(eroe);
 
             /* PARTITA */
-            bool isWin = Partita(utente, eroe, mostro);
+            bool isWin = Partita(eroe, mostro);
 
             /* SE HA VINTO CALCOLO PUNTEGGIO + CALCOLO LIVELLO */
             if (isWin)
             {
-                //TODO 
-                /* AGGIUNTA ESPEREINZA = LIV MOSTRO * 10 */
-                // EroeServices.CalcoloEsperienza(eroe);
-
-                // controllo se passaggio livello
-                // EroeServices.CalcolaLivello(eroe);
+                CalcolaPunteggioLivello(utente, eroe, mostro);
             }
-
             /* RICHIESTA SE GIOCARE ANCORA */
             GiocareAncora(utente, eroe, mostro);
+        }
+
+        private static void CalcolaPunteggioLivello(Utente utente, Eroe eroe, Mostro mostro)
+        {
+            /* CALCOLO L'ESPERIENZA CHE AGGIUNGO AL EROE */
+            int espereinzaBattaglia = EroeServices.CalcoloEsperienza(mostro);
+            Console.WriteLine($"Con queta vittoria guadagni {espereinzaBattaglia} punti espereinza");
+
+            /* AGGIORNO LA NUOVA ESPEREINZA */
+            eroe.AggiornaEsperienza(espereinzaBattaglia);
+            /* GLI DICO I PUNTI ESPEREINZA RAGGIUNTI */
+            Console.WriteLine($"La tua esperienza ora è  di {eroe.PuntiEsperienza} punti");
+
+            /* CONTROLLO SE PASSATO DI LIVELLO*/
+            // controllo i punti che mancano
+            // >> NB. il metodo subito sotto in caso di numero negativo restiuisce 0 <<
+            int puntiMancanti = EroeServices.PuntiProssimoLivello(eroe);
+
+            if (puntiMancanti == -1)
+            {
+                Console.WriteLine("\n!!! Livllo Massimo Raggiunto !!! ");
+            }
+            // se ne mancano 0 >> aggiorno livello - vita - esperienza (diventa 0) - admin se LIV 3
+            else if (puntiMancanti == 0)
+            {
+                EroeServices.UpdateEsperienzaLivelloEroe(utente, eroe);
+                Console.WriteLine($"\n{eroe.Nome} passa a livello {eroe.Livello} !! Nuovi punti vita: {eroe.PuntiVita} - Punti Esperienza: {eroe.PuntiEsperienza}\n");
+            }
+            else // diversamente aggiorno solo  
+            {
+                EroeServices.UpdateEsperienzaEroe(utente, eroe);
+                Console.WriteLine($"Ti mancano {puntiMancanti} punti per il {eroe.Livello + 1} livello");
+            }
         }
 
         private static void GiocareAncora(Utente utente, Eroe eroe, Mostro mostro)
@@ -50,22 +77,29 @@ namespace MostriVSEroi.View
                 {
                     Gioca(utente);
                 }
-                else
+                else /* NON VUOLE CAMBIARE EROE*/
                 {
                     /* RINNOVO IL MOSTRO */
                     mostro = MostroServices.SceltaMostro(eroe);
-                    Partita(utente, eroe, mostro);
+                    bool isWin = Partita(eroe, mostro);
+                    if (isWin)
+                    {
+                        CalcolaPunteggioLivello(utente, eroe, mostro);
+                    }
                     GiocareAncora(utente, eroe, mostro);
                 }
             }
             else
             {
-                // TODO : TORNA AL MENU ADMIN O NONADMIN
+                if (utente.IsAdmin)
+                {
+                    Menu.MenuAdmin(utente);
+                }
                 Menu.MenuNonAdmin(utente);
             }
         }
 
-        private static bool Partita(Utente utente, Eroe eroe, Mostro mostro)
+        private static bool Partita(Eroe eroe, Mostro mostro)
         {
             Console.WriteLine($"\n!! Ti sta attaccando {mostro.Nome} di LIV. {mostro.Livello} !!\n");
             int scelta;
@@ -81,7 +115,10 @@ namespace MostriVSEroi.View
                 do
                 {
                     eroe.Attacca(mostro);
-                    mostro.Attacca(eroe);
+                    if (mostro.PuntiVita > 0)
+                    {
+                        mostro.Attacca(eroe);
+                    }
 
                 } while (eroe.PuntiVita > 0 && mostro.PuntiVita > 0);
 
@@ -129,7 +166,7 @@ namespace MostriVSEroi.View
             } while (!conversione || eroeScelto < 1 || eroeScelto > eroi.Count);
 
             return eroi[--eroeScelto];
-           
+
         }
     }
 }

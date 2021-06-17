@@ -17,5 +17,10 @@ namespace MostriVsEroi.Services
         {
             return amr.FetchArmiEroe(categoria);
         }
+
+        public static List<Arma> GetArmiMostro(string categoria)
+        {
+            return amr.FetchArmiMostro(categoria);
+        }
     }
 }

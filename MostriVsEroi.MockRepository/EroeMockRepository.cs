@@ -33,5 +33,15 @@ namespace MostriVSEroi.MockRepository
         {
             eroi.Remove(eroe);
         }
+
+        public void UpdateEsperienzaEroe(Utente utente, Eroe eroe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEsperienzaLivelloEroe(Utente utente, Eroe eroe)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

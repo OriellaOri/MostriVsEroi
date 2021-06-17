@@ -49,15 +49,14 @@ namespace MostriVsEroi.DbRepository
             return armiEroi;
         }
 
-        public List<Arma> FetchArmiMostro(Mostro mostro)
+        public List<Arma> FetchArmiMostro(string categoria)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
             List<Arma> armi = new List<Arma>();
 
-            cmd.CommandText = "SELECT Nome, Danno" +
-                              "FROM dbo.ArmiPerCategoriaMostro WHERE CategoriaMostro = @CategoriaMostro;";
+            cmd.CommandText = "SELECT Nome, Danno FROM dbo.ArmiPerCategoriaMostro WHERE CategoriaMostro = @CategoriaMostro;";
 
-            cmd.Parameters.AddWithValue("@CategoriaMostro", mostro);
+            cmd.Parameters.AddWithValue("@CategoriaMostro", categoria);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {

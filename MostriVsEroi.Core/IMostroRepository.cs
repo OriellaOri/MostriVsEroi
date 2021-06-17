@@ -9,5 +9,6 @@ namespace MostriVSEroi.Core
     public interface IMostroRepository
     {
         public List<Mostro> FetchMostri();
+        void AddNewMostro(Mostro m);
     }
 }

@@ -26,22 +26,41 @@ namespace MostriVsEroi.DbRepository
         public Utente GetUser(Utente utente)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
-
-            cmd.CommandText = "SELECT * from dbo.Utenti WHERE Username = @Username AND Password = @Password;";
+            cmd.CommandText = "SELECT IsAdmin from dbo.Utenti WHERE Username = @Username AND Password = @Password;";
             cmd.Parameters.AddWithValue("@Username", utente.Username);
             cmd.Parameters.AddWithValue("@Password", utente.Password);
             SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows) 
-            {
-                utente.IsAuthenticated = true;
-            }
-            else
+
+            /* SE NON C SONO RIGHE AUTENTICAZIONE FALLITA */
+            if (!reader.HasRows)
             {
                 utente.IsAuthenticated = false;
+                connection.Close();
+                return utente;
+            }
 
+            /* SE CI SONO LE LEGGO E VALORIZZO I DATI CHE MI SERVONO */
+            while (reader.Read())
+            {
+                var isAdmin = (bool)reader[0];
+                if (isAdmin)
+                {
+                    utente.IsAdmin = true;
+                }
+                utente.IsAuthenticated = true;
             }
             connection.Close();
             return utente;
+        }
+
+        public void UpdateAdmin(Utente utente)
+        {
+            ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
+            cmd.CommandText = "UPDATE dbo.Utenti SET IsAdmin = @IsAdmin WHERE Username = @Username ;";
+            cmd.Parameters.AddWithValue("@IsAdmin", 1);
+            cmd.Parameters.AddWithValue("@Username", utente.Username);
+            cmd.ExecuteNonQuery();
+            connection.Close();
         }
     }
 }

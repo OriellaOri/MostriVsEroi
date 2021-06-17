@@ -41,5 +41,10 @@ namespace MostriVsEroi.MockRepository
         {
             throw new NotImplementedException();
         }
+
+        public List<Arma> FetchArmiMostro(string categoriaMostro)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

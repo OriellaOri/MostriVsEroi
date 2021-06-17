@@ -37,6 +37,11 @@ namespace MostriVSEroi.Services
 
             return mostro;
         }
+
+        public static void AddMostro(Mostro m)
+        {
+            mmr.AddNewMostro(m);
+        }
     }
 
 }

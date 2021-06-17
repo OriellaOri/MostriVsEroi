@@ -15,7 +15,7 @@ namespace MostriVsEroi.DbRepository
             /* RECUPERO ID UTENTE */
             int idUtente = FetchIdUtente(utente);
             /* RECUPERO ID CATEGORIA EROE*/
-            int idCategoria = FetchIdCategoria(newEroe);         
+            int idCategoria = FetchIdCategoria(newEroe);
             /* RECUPERO ID ARMA */
             int idArma = FetchIdArma(newEroe);
 
@@ -51,19 +51,19 @@ namespace MostriVsEroi.DbRepository
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
             List<Eroe> eroiUtente = new List<Eroe>();
 
-            cmd.CommandText = "SELECT * FROM dbo.UtentiConEroi WHERE Username = @Username;";
+            cmd.CommandText = "SELECT Eroe,Categoria,Livello,PuntiVita,Arma,Danno,Esperienza FROM dbo.UtentiConEroi WHERE Username = @Username;";
 
             cmd.Parameters.AddWithValue("@Username", utente.Username);
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                var nomeEroe        = (string)reader[1];
-                var categoriaEroe   = (string)reader[2];
-                var livelloEroe     = (int)reader[3];
-                var pvEroe          = (int)reader[4];
-                var nomeArma        = (string)reader[5];
-                var dannoArma       = (int)reader[6];
-                var espereinza      = (int)reader[7];
+                var nomeEroe = (string)reader[0];
+                var categoriaEroe = (string)reader[1];
+                var livelloEroe = (int)reader[2];
+                var pvEroe = (int)reader[3];
+                var nomeArma = (string)reader[4];
+                var dannoArma = (int)reader[5];
+                var espereinza = (int)reader[6];
 
                 Eroe e = new Eroe(nomeEroe, categoriaEroe, new Arma(nomeArma, dannoArma), livelloEroe, pvEroe, espereinza);
                 eroiUtente.Add(e);
@@ -121,6 +121,60 @@ namespace MostriVsEroi.DbRepository
             }
             con.Close();
             return idArma;
+        }
+
+        public void UpdateEsperienzaEroe(Utente utente, Eroe eroe)
+        {
+            /* RECUPERO ID UTENTE */
+            int idUtente = FetchIdUtente(utente);
+
+            ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
+            cmd.CommandText = "UPDATE dbo.Eroi SET PuntiEsperienza = @PuntiEsperienza WHERE IdUtente = @IdUtente AND Nome = @Nome ;";
+            cmd.Parameters.AddWithValue("@PuntiEsperienza", eroe.PuntiEsperienza);
+            cmd.Parameters.AddWithValue("@IdUtente", idUtente);
+            cmd.Parameters.AddWithValue("@Nome", eroe.Nome);
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public void UpdateEsperienzaLivelloEroe(Utente utente, Eroe eroe)
+        {
+            /* RECUPERO ID UTENTE */
+            int idUtente = FetchIdUtente(utente);
+
+            // i punti vita vengo aggiornati automaticamente in quanto nel db è proprietà
+            ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
+            cmd.CommandText = "UPDATE dbo.Eroi SET PuntiEsperienza = @PuntiEsperienza , IdLivello = @IdLivello WHERE IdUtente = @IdUtente AND Nome = @Nome ;";
+            cmd.Parameters.AddWithValue("@PuntiEsperienza", 0);
+            cmd.Parameters.AddWithValue("@IdLivello", eroe.Livello);
+            cmd.Parameters.AddWithValue("@IdUtente", idUtente);
+            cmd.Parameters.AddWithValue("@Nome", eroe.Nome);
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public List<Eroe> FetchEroi()
+        {
+            ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
+            List<Eroe> eroiUtente = new List<Eroe>();
+
+            cmd.CommandText = "SELECT * FROM dbo.EroiPerLivelloDesc;";
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var nomeEroe = (string)reader[0];
+                var categoriaEroe = (string)reader[1];
+                var livelloEroe = (int)reader[2];
+                var espereinza = (int)reader[3];
+                var username = (string)reader[4];
+
+                Eroe e = new Eroe(nomeEroe, categoriaEroe, livelloEroe, espereinza);
+                // TODO costruttore eroe per crare classifca 
+                // TODO utente per stamparlo poi nella view 
+                eroiUtente.Add(e);
+            }
+            connection.Close();
+            return eroiUtente;
         }
     }
 }
