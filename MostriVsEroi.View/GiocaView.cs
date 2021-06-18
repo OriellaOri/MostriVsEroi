@@ -10,7 +10,8 @@ namespace MostriVSEroi.View
 {
     class GiocaView
     {
-        internal static void Gioca(Utente utente)
+        //TODO : sistemare l'uscita del gioco
+        internal static void Gioca(Utente utente) 
         {
             /* SCELTA EROE */
             Eroe eroe = SceltaEroe(utente);
@@ -26,8 +27,35 @@ namespace MostriVSEroi.View
             {
                 CalcolaPunteggioLivello(utente, eroe, mostro);
             }
-            /* RICHIESTA SE GIOCARE ANCORA */
-            GiocareAncora(utente, eroe, mostro);
+
+            /* CHIEDO SE VUOLE GIOCA ANCORA*/
+            bool isPlay = RichiestaGioco();
+
+            //se si gioco ancora 
+            if (isPlay)
+            {
+                GiocareAncora(utente, eroe, mostro);
+            }
+            else // TORNA AL MENU 
+            {
+                if (utente.IsAdmin)
+                {
+                    Menu.MenuAdmin(utente);
+                }
+                Menu.MenuNonAdmin(utente);
+            }
+        }
+
+        private static bool RichiestaGioco()
+        {
+            // chiediamo se vuole giocare 
+            Console.WriteLine("Vuoi giocare ancora ? Premere S o N ");
+            string giocareAncora = Console.ReadLine();
+            if (giocareAncora.ToUpper() != "S")
+            {
+                return false;
+            }
+            return true;
         }
 
         private static void CalcolaPunteggioLivello(Utente utente, Eroe eroe, Mostro mostro)
@@ -65,37 +93,42 @@ namespace MostriVSEroi.View
 
         private static void GiocareAncora(Utente utente, Eroe eroe, Mostro mostro)
         {
-            Console.WriteLine("Vuoi giocare ancora ? Premere S o N ");
-            string giocareAncora = Console.ReadLine();
-
             /* CAMBIO EROE */
-            if (giocareAncora.ToUpper() == "S")
+            Console.WriteLine("Vuoi cambiare EROE? S / N ");
+            string cambioEroe = Console.ReadLine();
+            if (cambioEroe.ToUpper() == "S")
             {
-                Console.WriteLine("Vuoi cambiare EROE? S / N ");
-                string cambioEroe = Console.ReadLine();
-                if (cambioEroe.ToUpper() == "S")
+                Gioca(utente);
+            }
+            else /* NON VUOLE CAMBIARE EROE*/
+            {
+                /* RINNOVO IL MOSTRO */
+                mostro = MostroServices.SceltaMostro(eroe);
+                /* GIOCO LA PARTITA */
+                bool isWin = Partita(utente, eroe, mostro);
+                if (isWin)
                 {
-                    Gioca(utente);
+                    CalcolaPunteggioLivello(utente, eroe, mostro);
                 }
-                else /* NON VUOLE CAMBIARE EROE*/
+
+                /* CHIEDO SE VUOLE GIOCA ANCORA*/
+                bool isPlay = RichiestaGioco();
+                //se si gioco ancora 
+                if (isPlay)
                 {
-                    /* RINNOVO IL MOSTRO */
-                    mostro = MostroServices.SceltaMostro(eroe);
-                    bool isWin = Partita(utente, eroe, mostro);
-                    if (isWin)
-                    {
-                        CalcolaPunteggioLivello(utente, eroe, mostro);
-                    }
                     GiocareAncora(utente, eroe, mostro);
                 }
-            }
-            else
-            {
-                if (utente.IsAdmin)
+                else // TORNA AL MENU 
                 {
-                    Menu.MenuAdmin(utente);
+                    if (utente.IsAdmin)
+                    {
+                        Menu.MenuAdmin(utente);
+                    }
+                    else
+                    {
+                        Menu.MenuNonAdmin(utente);
+                    }
                 }
-                Menu.MenuNonAdmin(utente);
             }
         }
 
@@ -124,7 +157,7 @@ namespace MostriVSEroi.View
                     Console.WriteLine("\n!!! SEI RIUCITO A SCAPPARE !!!\n");
                     /* SOTTRAZIONE ESPEREINZA */
                     CalcolaPerditaEspereinza(utente, eroe, mostro);
-                    GiocareAncora(utente,eroe,mostro);
+                    GiocareAncora(utente, eroe, mostro);
                 }
                 else
                 {
@@ -220,7 +253,6 @@ namespace MostriVSEroi.View
             } while (!conversione || eroeScelto < 1 || eroeScelto > eroi.Count);
 
             return eroi[--eroeScelto];
-
         }
     }
 }
