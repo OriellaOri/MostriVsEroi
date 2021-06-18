@@ -1,4 +1,5 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.Core;
+using MostriVSEroi.Core;
 using MostriVSEroi.Services;
 using MostriVSEroi.View;
 using System;
@@ -13,21 +14,30 @@ namespace MostriVsEroi.View
     {
         public static void Registra()
         {
-            /* RICHIESTA USERNAME E PASSWORD */
-            Utente utente = RichiestaDati.InserisciUsernamePassword();
-            UtenteServices.AddUtente(utente);
-            Console.WriteLine($"Utente {utente.Username} aggiunto correttamente!\n");
-            utente = UtenteServices.VerifyAuthentication(utente);
-            if (utente.IsAuthenticated && utente.IsAdmin)
+            try
             {
-                //TODO :MenuAdmin
-            }
-            else if (utente.IsAuthenticated && !utente.IsAdmin)
-            {
-                /* UNA VOLTA REGISTRATO GLI FACCIO CREARE UN EROE PER INZIARE A GIOCARE*/
+                /* RICHIESTA USERNAME E PASSWORD */
+                Utente utente = RichiestaDati.InserisciNewUsernamePassword();
+
+                /* INSERIMENTO DB */
+                UtenteServices.AddUtente(utente);
+
+                /* CONFERMA INSERIMENTO */
+                Console.WriteLine($"Utente {utente.Username} aggiunto correttamente!\n");
+
+                /* UNA VOLTA REGISTRATO CREA UN EROE PER INZIARE A GIOCARE */
                 Console.WriteLine("--- IL TUO PRIMO EROE ---\n");
                 EroeView.CreaEroe(utente);
+
+                /* GLI MOSTRO IL MENU PER COMINCIARE A GIOCARE */
                 Menu.MenuNonAdmin(utente);
+            }
+            catch (UtenteException)
+            {
+                /* GESTISCO ECCEZIONE */
+                //TODO : opportuno fare un eccezione personalizzata?
+                Console.WriteLine("\n\n!! Username già presente !!\n\n");
+                Registra();
             }
 
         }

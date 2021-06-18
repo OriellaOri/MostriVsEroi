@@ -15,5 +15,9 @@ namespace MostriVSEroi.Core
             IsAdmin = false;
             IsAuthenticated = false;
         }
+        public Utente(string user)
+        {
+            Username = user;
+        }
     }
 }

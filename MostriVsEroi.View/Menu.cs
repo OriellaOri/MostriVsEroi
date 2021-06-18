@@ -74,9 +74,7 @@ namespace MostriVSEroi.View
                         Console.WriteLine("Scelta sbagliata... riprova");
                         break;
                 }
-
             } while (vuoiContinuare);
-
         }
 
         internal static void MenuAdmin(Utente utente)
@@ -85,7 +83,7 @@ namespace MostriVSEroi.View
             Console.WriteLine($"Bentornato {utente.Username}\n");
             do
             {
-                Console.WriteLine("Cosa vuoi fare?\n");
+                Console.WriteLine("\nCosa vuoi fare?\n");
                 Console.WriteLine("1 x GIOCARE");
                 Console.WriteLine("2 x CREA EROE");
                 Console.WriteLine("3 x ELIMINA EROE");
@@ -123,9 +121,7 @@ namespace MostriVSEroi.View
                         Console.WriteLine("Scelta sbagliata... riprova");
                         break;
                 }
-
             } while (vuoiContinuare);
-
         }
     }
 }

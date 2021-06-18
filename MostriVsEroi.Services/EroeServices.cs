@@ -24,9 +24,9 @@ namespace MostriVSEroi.Services
         {
             return emr.FetchEroi(utente);
         }
-        public static List<Eroe> GetEroiClassifca()
+        public static Dictionary<Eroe, Utente> GetEroiClassifca()
         {
-            return emr.FetchEroi();
+            return emr.FetchEroiUtenti();
         }
         public static void AddEroe(Eroe newEroe, Utente utente)
         {
@@ -112,5 +112,9 @@ namespace MostriVSEroi.Services
             emr.UpdateEsperienzaEroe(utente, eroe);
         }
 
+        public static int CalcoloEsperienzaFuga(Mostro mostro)
+        {
+            return mostro.Livello * 5;
+        }
     }
 }

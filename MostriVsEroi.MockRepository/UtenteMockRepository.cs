@@ -25,5 +25,15 @@ namespace MostriVSEroi.MockRepository
         {
             throw new NotImplementedException();
         }
+
+        public List<string> GetUtentiUsername()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Utente> GetUtenti()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

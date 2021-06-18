@@ -19,6 +19,19 @@ namespace MostriVsEroi.View
         {
             // conversione scelta 
             bool conversione;
+            List<Eroe> eroiUtente; 
+
+            /* PROVO A RECUPERARE LA LISTA DEGLI EROI DELL'UTENTE */
+            try
+            {
+                eroiUtente = EroeServices.GetEroi(utente);
+            }
+            catch(InvalidCastException)
+            {
+                /* DEVO GESTIRE L'ERRORE CHE MI GENERA */
+                // aggiunta perchè il CreaEroe è usato anche per un utente appena registato che non ha eroi
+                eroiUtente = null;
+            }
 
             /* RICHIESTA NOME */
             string nome;
@@ -27,6 +40,18 @@ namespace MostriVsEroi.View
                 Console.WriteLine("Inserisci nome del tuo eroe");
                 nome = Console.ReadLine();
 
+                /* SE LA LISTA NON è NULLA COMPARO I NOMI*/
+                if (eroiUtente != null)
+                {
+                    foreach (Eroe e in eroiUtente)
+                    {
+                        if (e.Nome.Equals(nome, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            Console.WriteLine($"Hai già un eroe con il nome {nome}");
+                            CreaEroe(utente);
+                        }
+                    }
+                }
             } while (String.IsNullOrEmpty(nome));
 
             /* RICHIETA CATEGORIA */
@@ -65,7 +90,7 @@ namespace MostriVsEroi.View
             // creo il nuovo eroe 
             Eroe eroeCreato = new Eroe(nome, categoriaSelezioanta, nuovaArma);
 
-            // aggiungo l'eroe creato alla lista degli eroi del utente che poi sara nel DB
+            // aggiungo l'eroe nel db
             EroeServices.AddEroe(eroeCreato, utente);
 
             Console.WriteLine($"Eroe aggiunto correttamente : {eroeCreato.Nome} - {eroeCreato.Categoria} - {eroeCreato.Arma.Nome} ");
@@ -100,8 +125,14 @@ namespace MostriVsEroi.View
         internal static void MostraClassifica()
         {
             /* VISUALIZZARE I MILGIORI 10 EROI IN ORIDINE DI LIVELLO E PUNTI ACCUMULATI CON NICKNAME DEL GIOCATORE */
-            List<Eroe> eroi = EroeServices.GetEroiClassifca();
-
+            // recupero la classifica  e la stampo 
+            Dictionary<Eroe, Utente> classifica = EroeServices.GetEroiClassifca();
+            int count = 1;
+            foreach (Eroe e in classifica.Keys)
+            {
+                Console.WriteLine($"{count++} - Eroe: {e.Nome} | {e.Categoria} | LIV {e.Livello} | ESP {e.PuntiEsperienza} | USER {classifica[e].Username}");
+            }
+            Console.WriteLine("\n");
         }
     }
 }

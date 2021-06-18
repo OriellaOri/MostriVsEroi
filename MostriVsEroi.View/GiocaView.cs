@@ -19,7 +19,7 @@ namespace MostriVSEroi.View
             Mostro mostro = MostroServices.SceltaMostro(eroe);
 
             /* PARTITA */
-            bool isWin = Partita(eroe, mostro);
+            bool isWin = Partita(utente, eroe, mostro);
 
             /* SE HA VINTO CALCOLO PUNTEGGIO + CALCOLO LIVELLO */
             if (isWin)
@@ -39,7 +39,7 @@ namespace MostriVSEroi.View
             /* AGGIORNO LA NUOVA ESPEREINZA */
             eroe.AggiornaEsperienza(espereinzaBattaglia);
             /* GLI DICO I PUNTI ESPEREINZA RAGGIUNTI */
-            Console.WriteLine($"La tua esperienza ora è  di {eroe.PuntiEsperienza} punti");
+            Console.WriteLine($"La tua esperienza ora è di {eroe.PuntiEsperienza} punti");
 
             /* CONTROLLO SE PASSATO DI LIVELLO*/
             // controllo i punti che mancano
@@ -81,7 +81,7 @@ namespace MostriVSEroi.View
                 {
                     /* RINNOVO IL MOSTRO */
                     mostro = MostroServices.SceltaMostro(eroe);
-                    bool isWin = Partita(eroe, mostro);
+                    bool isWin = Partita(utente, eroe, mostro);
                     if (isWin)
                     {
                         CalcolaPunteggioLivello(utente, eroe, mostro);
@@ -99,7 +99,7 @@ namespace MostriVSEroi.View
             }
         }
 
-        private static bool Partita(Eroe eroe, Mostro mostro)
+        private static bool Partita(Utente utente, Eroe eroe, Mostro mostro)
         {
             Console.WriteLine($"\n!! Ti sta attaccando {mostro.Nome} di LIV. {mostro.Livello} !!\n");
             int scelta;
@@ -112,38 +112,92 @@ namespace MostriVSEroi.View
             /* ATTACCARE */
             if (scelta == 1)
             {
-                do
-                {
-                    eroe.Attacca(mostro);
-                    if (mostro.PuntiVita > 0)
-                    {
-                        mostro.Attacca(eroe);
-                    }
-
-                } while (eroe.PuntiVita > 0 && mostro.PuntiVita > 0);
-
-                /* EROE PERDE */
-                if (eroe.PuntiVita <= 0)
-                {
-                    Console.WriteLine("Hai Perso!");
-                    return false;
-
-                }
-                /* EROE VINCE */
-                if (mostro.PuntiVita <= 0)
-                {
-                    Console.WriteLine("Hai Vinto!! ");
-                    return true;
-                }
+                Combattimento(eroe, mostro);
             }
             /* FUGGIRE */
             else if (scelta == 2)
             {
-                //TODO FUGGIRE
-                /* SOTTRAZIONE ESPEREINZA = LIV MOSTRO * 5 */
+                /*METODO CHE DECIDE SE EROE RIESCE A FUGGIRE*/
+                bool fuga = IsRun();
+                if (fuga)
+                {
+                    Console.WriteLine("\n!!! SEI RIUCITO A SCAPPARE !!!\n");
+                    /* SOTTRAZIONE ESPEREINZA */
+                    CalcolaPerditaEspereinza(utente, eroe, mostro);
+                    GiocareAncora(utente,eroe,mostro);
+                }
+                else
+                {
+                    Console.WriteLine("\n!!! NON SEI RIUCITO A SCAPPARE !!!\n");
+                    Console.WriteLine("--- COMBATTIMENTO ---\n");
+                    CombattimentoFuga(eroe, mostro);
+                }
+            }
+            return true;
+        }
+
+        private static void CalcolaPerditaEspereinza(Utente utente, Eroe eroe, Mostro mostro)
+        {
+            /* CALCOLO ESPERIENZA DA TOGLIERE*/
+            int espereinzaFuga = EroeServices.CalcoloEsperienzaFuga(mostro);
+            Console.WriteLine($"Con questa fuga perdi {espereinzaFuga} punti espereinza");
+
+            /* AGGIORNO LA NUOVA ESPEREINZA */
+            eroe.PerditaEsperienza(espereinzaFuga);
+            Console.WriteLine($"La tua esperienza ora è di {eroe.PuntiEsperienza} punti");
+
+            /* AGGIORNO DATI NEL DB*/
+            EroeServices.UpdateEsperienzaEroe(utente, eroe);
+        }
+
+        private static bool IsRun()
+        {
+            Random r = new Random();
+            return Convert.ToBoolean(r.Next(0, 2));
+        }
+
+        private static bool Combattimento(Eroe eroe, Mostro mostro)
+        {
+            do
+            {
+                eroe.Attacca(mostro);
+                if (mostro.PuntiVita > 0)
+                {
+                    mostro.Attacca(eroe);
+                }
+            } while (eroe.PuntiVita > 0 && mostro.PuntiVita > 0);
+
+            /* EROE PERDE */
+            if (eroe.PuntiVita <= 0)
+            {
+                Console.WriteLine("Hai Perso!");
                 return false;
             }
-            return true; ;
+            /* EROE VINCE */
+            Console.WriteLine("Hai Vinto!! ");
+            return true;
+        }
+
+        private static bool CombattimentoFuga(Eroe eroe, Mostro mostro)
+        {
+            do
+            {
+                mostro.Attacca(eroe);
+                if (eroe.PuntiVita > 0)
+                {
+                    eroe.Attacca(mostro);
+                }
+            } while (eroe.PuntiVita > 0 && mostro.PuntiVita > 0);
+
+            /* EROE PERDE */
+            if (eroe.PuntiVita <= 0)
+            {
+                Console.WriteLine("Hai Perso!");
+                return false;
+            }
+            /* EROE VINCE */
+            Console.WriteLine("Hai Vinto!! ");
+            return true;
         }
 
         private static Eroe SceltaEroe(Utente utente)

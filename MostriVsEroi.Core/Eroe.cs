@@ -12,9 +12,7 @@ namespace MostriVSEroi.Core
         public string Categoria { get; set; }
         public Arma Arma { get; set; }
         public int Livello { get; set; }
-        /* TODO CAMBIA A SECONDA DEL LIVELLO */
         public int PuntiVita { get; set; }
-        /* TODO OGNI VOLTA CHE PASSO DI LIVELLO SI AZZERRANO */
         public int PuntiEsperienza { get; set; }
 
         public Eroe(string nome, string categoria, Arma arma)
@@ -40,6 +38,15 @@ namespace MostriVSEroi.Core
             PuntiEsperienza = esp;
         }
 
+        public Eroe(string nome, string categoria, int livello, int esp)
+        {
+            Nome = nome;
+            Categoria = categoria;
+            Livello = livello;
+            Livello = livello;
+            PuntiEsperienza = esp;
+        }
+
         public void Attacca(Mostro mostro)
         {
             mostro.PuntiVita -= Arma.Danno;
@@ -48,6 +55,15 @@ namespace MostriVSEroi.Core
         public int AggiornaEsperienza(int espo)
         {
             return PuntiEsperienza += espo;
+        }
+        public int PerditaEsperienza(int espo)
+        {
+            PuntiEsperienza -= espo;
+            if(PuntiEsperienza < 0) 
+            {
+                return PuntiEsperienza = 0;
+            }
+            return PuntiEsperienza;
         }
 
     }

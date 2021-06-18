@@ -43,5 +43,15 @@ namespace MostriVSEroi.MockRepository
         {
             throw new NotImplementedException();
         }
+
+        public List<Eroe> FetchEroi()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Dictionary<Eroe, Utente> FetchEroiUtenti()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

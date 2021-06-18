@@ -15,11 +15,22 @@ namespace MostriVsEroi.DbRepository
 
         public static void Connessione(out SqlConnection connection, out SqlCommand cmd)
         {
-            connection = new SqlConnection(connectionString);
-            connection.Open();
-            cmd = new SqlCommand();
-            cmd.Connection = connection;
-            cmd.CommandType = System.Data.CommandType.Text;
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+                cmd = new SqlCommand();
+                cmd.Connection = connection;
+                cmd.CommandType = System.Data.CommandType.Text;
+            }
+            catch (SqlException sqle)
+            {
+                Console.WriteLine("Problemi con DB/Query  \n\n");
+                Console.WriteLine($"Dettaglio: {sqle.Message}\n\n");
+                connection = null;
+                cmd = null;
+            }
+
         }
 
     }

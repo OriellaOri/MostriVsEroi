@@ -13,6 +13,6 @@ namespace MostriVSEroi.Core
         void DeleteEroe(Utente utente, Eroe eroe);
         void UpdateEsperienzaEroe(Utente utente, Eroe eroe);
         void UpdateEsperienzaLivelloEroe(Utente utente, Eroe eroe);
-        List<Eroe> FetchEroi();
+        Dictionary<Eroe, Utente> FetchEroiUtenti();
     }
 }

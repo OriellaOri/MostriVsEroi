@@ -1,4 +1,5 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.Core;
+using MostriVSEroi.Core;
 using MostriVSEroi.Services;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,27 @@ namespace MostriVSEroi.View
     {
         public static void Accedi()
         {
-            Utente utente = RichiestaDati.InserisciUsernamePassword();
-            // mi ritorno l'utente con le sue proprietà corrette
-            utente = UtenteServices.VerifyAuthentication(utente);
-            if (utente.IsAuthenticated && utente.IsAdmin)
+            try
             {
-                Menu.MenuAdmin(utente);
+                Utente utente = RichiestaDati.InserisciUsernamePassword();
+                // mi ritorno l'utente con le sue proprietà corrette
+                utente = UtenteServices.VerifyAuthentication(utente);
+
+                if (utente.IsAuthenticated && utente.IsAdmin)
+                {
+                    Menu.MenuAdmin(utente);
+                }
+                else if (utente.IsAuthenticated && !utente.IsAdmin)
+                {
+                    Menu.MenuNonAdmin(utente);
+                }
             }
-            else if (utente.IsAuthenticated && !utente.IsAdmin)
+            catch (UtenteException)
             {
-                Menu.MenuNonAdmin(utente);
-            }
-            else
-            {
-                Console.WriteLine("\n!! Devi prima registarti !! \n");
-            }
+                Console.WriteLine("\n\n!! Devi Prima Registrati !!\n\n");
+                //TODO chiedere se si vuole registare 
+                Menu.MainMenu();
+            }          
         }
     }
 }

@@ -11,5 +11,6 @@ namespace MostriVSEroi.Core
         Utente GetUser(Utente utente);
         void AddUser(Utente utente);
         void UpdateAdmin(Utente utente);
+        List<Utente> GetUtenti();
     }
 }

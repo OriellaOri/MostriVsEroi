@@ -153,12 +153,12 @@ namespace MostriVsEroi.DbRepository
             connection.Close();
         }
 
-        public List<Eroe> FetchEroi()
+        public Dictionary<Eroe, Utente> FetchEroiUtenti()
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
-            List<Eroe> eroiUtente = new List<Eroe>();
+            Dictionary<Eroe,Utente> classifica = new Dictionary<Eroe, Utente>();
 
-            cmd.CommandText = "SELECT * FROM dbo.EroiPerLivelloDesc;";
+            cmd.CommandText = "SELECT * FROM dbo.EroiTop10;";
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -168,13 +168,16 @@ namespace MostriVsEroi.DbRepository
                 var espereinza = (int)reader[3];
                 var username = (string)reader[4];
 
-                //Eroe e = new Eroe(nomeEroe, categoriaEroe, livelloEroe, espereinza);
-                // TODO costruttore eroe per crare classifca 
-                // TODO utente per stamparlo poi nella view 
-                //eroiUtente.Add(e);
+                /* CREO EROE CON SOLO I DATI CHE MI SERVONO */
+                Eroe eroe = new Eroe(nomeEroe, categoriaEroe, livelloEroe, espereinza);
+                /* CREO UTENTE CON SOLO IL USERNAME */
+                Utente utente = new Utente(username);
+
+                /* AGGIUNGO ALLA DICTONARY*/
+                classifica.Add(eroe, utente);
             }
             connection.Close();
-            return eroiUtente;
+            return classifica;
         }
     }
 }

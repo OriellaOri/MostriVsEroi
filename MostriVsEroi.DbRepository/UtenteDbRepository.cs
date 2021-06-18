@@ -13,9 +13,10 @@ namespace MostriVsEroi.DbRepository
         public void AddUser(Utente utente)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection cnt, out SqlCommand comand);
-            comand.CommandText = "insert into dbo.Utenti values (@Username, @Password)";
+            comand.CommandText = "insert into dbo.Utenti values (@Username, @Password,@IsAdmin)";
             comand.Parameters.AddWithValue("@Username", utente.Username);
             comand.Parameters.AddWithValue("@Password", utente.Password);
+            comand.Parameters.AddWithValue("@IsAdmin", utente.IsAdmin);
             comand.ExecuteNonQuery();
             cnt.Close();
         }
@@ -36,7 +37,7 @@ namespace MostriVsEroi.DbRepository
             {
                 utente.IsAuthenticated = false;
                 connection.Close();
-                return utente;
+                return null;
             }
 
             /* SE CI SONO LE LEGGO E VALORIZZO I DATI CHE MI SERVONO */
@@ -51,6 +52,24 @@ namespace MostriVsEroi.DbRepository
             }
             connection.Close();
             return utente;
+        }
+
+        public List<Utente> GetUtenti()
+        {
+            List<Utente> utenti = new List<Utente>();
+            ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
+            cmd.CommandText = "SELECT Username, Password from dbo.Utenti;";
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var username = (string)reader[0];
+                var pass = (string)reader[1]; ;
+                Utente u = new Utente(username, pass);
+                utenti.Add(u);
+            }
+            connection.Close();
+            return utenti;
         }
 
         public void UpdateAdmin(Utente utente)
