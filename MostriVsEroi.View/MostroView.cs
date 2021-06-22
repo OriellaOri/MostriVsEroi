@@ -12,7 +12,7 @@ namespace MostriVsEroi.View
     public class MostroView
     {
         /* RECUPERO LE CATAGEORIE DEI MOSTRI */
-        static List<string> categorie = CategoriaServices.GetCategorieMostri();
+        static readonly List<string> categorie = CategoriaServices.GetCategorieMostri();
         /* RECUPERO I LIVELLI DISPONIBILI */
         static readonly Dictionary<int, int> livelliPuntiVita = LivelloServices.GetLivelliVita();
 
@@ -73,7 +73,7 @@ namespace MostriVsEroi.View
             } while (!conversione || sceltaCategoria < 1 || sceltaCategoria > categorie.Count);
 
             /* CREO IL NUOVO MOSTRO */
-            Mostro newMostro = new Mostro(nome, categoriaSelezioanta, sceltaLivello, nuovaArma, livelliPuntiVita[sceltaLivello]);
+            Mostro newMostro = new(nome, categoriaSelezioanta, sceltaLivello, nuovaArma, livelliPuntiVita[sceltaLivello]);
 
             /* AGGIUNGO MOSTRO AL DB*/
             MostroServices.AddMostro(newMostro);

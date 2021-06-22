@@ -13,7 +13,7 @@ namespace MostriVSEroi.View
     class RichiestaDati
     {
         // CARICO LA LISTA DEGLI UTENTI NEL DB 
-        static List<Utente> utenti = UtenteServices.GetUtenti();
+        static readonly List<Utente> utenti = UtenteServices.GetUtenti();
 
         internal static Utente InserisciUsernamePassword()
         {
@@ -70,6 +70,8 @@ namespace MostriVSEroi.View
                     if (u.Username.Equals(username, StringComparison.CurrentCultureIgnoreCase))
                     {
                         /* SE PRESENTE SCATENO ECCEZIONE BLOCCO INSERIMENTO */
+                        // TODO gestire diversamente il controllo 
+                        // non scatuire un eccezione 
                         throw new UtenteException();
                     }
                 }
