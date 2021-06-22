@@ -10,40 +10,68 @@ namespace MostriVSEroi.View
 {
     class GiocaView
     {
-        //TODO : sistemare l'uscita del gioco
-        internal static void Gioca(Utente utente) 
+        internal static void Gioca(Utente utente)
         {
-            /* SCELTA EROE */
-            Eroe eroe = SceltaEroe(utente);
+            /* RICHIESTA DI GIOCARE */
+            bool isPlay;
 
-            /* SCELTA MOSTRO */
-            Mostro mostro = MostroServices.SceltaMostro(eroe);
+            /* EROE DA RIEMPIRE SE LA PIRMA VOLTA CHE SI GIOCA*/
+            Eroe eroe = null;
 
-            /* PARTITA */
-            bool isWin = Partita(utente, eroe, mostro);
-
-            /* SE HA VINTO CALCOLO PUNTEGGIO + CALCOLO LIVELLO */
-            if (isWin)
+            /* ENTRO QUI DENTRO FINCHè VUOLE GIOCARE */
+            do
             {
-                CalcolaPunteggioLivello(utente, eroe, mostro);
-            }
-
-            /* CHIEDO SE VUOLE GIOCA ANCORA*/
-            bool isPlay = RichiestaGioco();
-
-            //se si gioco ancora 
-            if (isPlay)
-            {
-                GiocareAncora(utente, eroe, mostro);
-            }
-            else // TORNA AL MENU 
-            {
-                if (utente.IsAdmin)
+                /* SCELTA EROE */
+                if (eroe == null)
                 {
-                    Menu.MenuAdmin(utente);
+                    eroe = SceltaEroe(utente);
                 }
-                Menu.MenuNonAdmin(utente);
-            }
+                else
+                {
+                    /*CAMBIO EROE*/
+                    Console.WriteLine("Vuoi cambiare EROE? S / N ");
+                    string cambioEroe = Console.ReadLine();
+                    if (cambioEroe.ToUpper() == "S")
+                    {
+                        eroe = SceltaEroe(utente);
+                    }
+                }
+
+                /* SCELTA MOSTRO */
+                Mostro mostro = MostroServices.SceltaMostro(eroe);
+
+                /* AVVISO MOSTRO  */
+                Console.WriteLine($"\n!! Ti sta attaccando {mostro.Nome} di LIV. {mostro.Livello} !!\n");
+
+                int scelta;
+                /*RICHIESTA DI COSA FARE */
+                do
+                {
+                    Console.WriteLine("1 x COMBATTERE \n2 x FUGGIRE ");
+
+                } while (!int.TryParse(Console.ReadLine(), out scelta) || scelta < 1 || scelta > 2);
+
+                /* ATTACCARE */
+                if (scelta == 1)
+                {
+                    /* PARTITA */
+                    bool isWin = Combattimento(eroe, mostro);
+                    /* SE HA VINTO CALCOLO PUNTEGGIO + CALCOLO LIVELLO */
+                    if (isWin)
+                    {
+                        CalcolaPunteggioLivello(utente, eroe, mostro);
+                    }
+                }
+                /* FUGA */
+                else
+                {
+                    GiocoFuga(utente, eroe, mostro);
+                }
+
+                /* CHIEDO SE VUOLE GIOCA ANCORA*/
+                isPlay = RichiestaGioco();
+
+            } while (isPlay);
         }
 
         private static bool RichiestaGioco()
@@ -91,84 +119,6 @@ namespace MostriVSEroi.View
             }
         }
 
-        private static void GiocareAncora(Utente utente, Eroe eroe, Mostro mostro)
-        {
-            /* CAMBIO EROE */
-            Console.WriteLine("Vuoi cambiare EROE? S / N ");
-            string cambioEroe = Console.ReadLine();
-            if (cambioEroe.ToUpper() == "S")
-            {
-                Gioca(utente);
-            }
-            else /* NON VUOLE CAMBIARE EROE*/
-            {
-                /* RINNOVO IL MOSTRO */
-                mostro = MostroServices.SceltaMostro(eroe);
-                /* GIOCO LA PARTITA */
-                bool isWin = Partita(utente, eroe, mostro);
-                if (isWin)
-                {
-                    CalcolaPunteggioLivello(utente, eroe, mostro);
-                }
-
-                /* CHIEDO SE VUOLE GIOCA ANCORA*/
-                bool isPlay = RichiestaGioco();
-                //se si gioco ancora 
-                if (isPlay)
-                {
-                    GiocareAncora(utente, eroe, mostro);
-                }
-                else // TORNA AL MENU 
-                {
-                    if (utente.IsAdmin)
-                    {
-                        Menu.MenuAdmin(utente);
-                    }
-                    else
-                    {
-                        Menu.MenuNonAdmin(utente);
-                    }
-                }
-            }
-        }
-
-        private static bool Partita(Utente utente, Eroe eroe, Mostro mostro)
-        {
-            Console.WriteLine($"\n!! Ti sta attaccando {mostro.Nome} di LIV. {mostro.Livello} !!\n");
-            int scelta;
-            do
-            {
-                Console.WriteLine("1 x ATTACCARE \n2 x FUGGIRE ");
-
-            } while (!int.TryParse(Console.ReadLine(), out scelta) || scelta < 1 || scelta > 2);
-
-            /* ATTACCARE */
-            if (scelta == 1)
-            {
-                Combattimento(eroe, mostro);
-            }
-            /* FUGGIRE */
-            else if (scelta == 2)
-            {
-                /*METODO CHE DECIDE SE EROE RIESCE A FUGGIRE*/
-                bool fuga = IsRun();
-                if (fuga)
-                {
-                    Console.WriteLine("\n!!! SEI RIUCITO A SCAPPARE !!!\n");
-                    /* SOTTRAZIONE ESPEREINZA */
-                    CalcolaPerditaEspereinza(utente, eroe, mostro);
-                    GiocareAncora(utente, eroe, mostro);
-                }
-                else
-                {
-                    Console.WriteLine("\n!!! NON SEI RIUCITO A SCAPPARE !!!\n");
-                    Console.WriteLine("--- COMBATTIMENTO ---\n");
-                    CombattimentoFuga(eroe, mostro);
-                }
-            }
-            return true;
-        }
-
         private static void CalcolaPerditaEspereinza(Utente utente, Eroe eroe, Mostro mostro)
         {
             /* CALCOLO ESPERIENZA DA TOGLIERE*/
@@ -176,8 +126,14 @@ namespace MostriVSEroi.View
             Console.WriteLine($"Con questa fuga perdi {espereinzaFuga} punti espereinza");
 
             /* AGGIORNO LA NUOVA ESPEREINZA */
-            eroe.PerditaEsperienza(espereinzaFuga);
-            Console.WriteLine($"La tua esperienza ora è di {eroe.PuntiEsperienza} punti");
+            if (eroe.PerditaEsperienza(espereinzaFuga) == 0)
+            {
+                Console.WriteLine("La tua esperienza rimane a 0");
+            }
+            else
+            {
+                Console.WriteLine($"La tua esperienza ora è di {eroe.PuntiEsperienza} punti");
+            }
 
             /* AGGIORNO DATI NEL DB*/
             EroeServices.UpdateEsperienzaEroe(utente, eroe);
@@ -185,7 +141,7 @@ namespace MostriVSEroi.View
 
         private static bool IsRun()
         {
-            Random r = new Random();
+            Random r = new();
             return Convert.ToBoolean(r.Next(0, 2));
         }
 
@@ -211,34 +167,68 @@ namespace MostriVSEroi.View
             return true;
         }
 
-        private static bool CombattimentoFuga(Eroe eroe, Mostro mostro)
+
+        private static void GiocoFuga(Utente utente, Eroe eroe, Mostro mostro)
         {
+            bool fuga;
+            int scelta;
             do
             {
-                mostro.Attacca(eroe);
-                if (eroe.PuntiVita > 0)
-                {
-                    eroe.Attacca(mostro);
-                }
-            } while (eroe.PuntiVita > 0 && mostro.PuntiVita > 0);
+                /* VEDO SE RIESCE A FUGGIRE */
+                fuga = IsRun();
 
-            /* EROE PERDE */
-            if (eroe.PuntiVita <= 0)
-            {
-                Console.WriteLine("Hai Perso!");
-                return false;
-            }
-            /* EROE VINCE */
-            Console.WriteLine("Hai Vinto!! ");
-            return true;
+                /* SE LA FUGA VA A BUON FINE */
+                if (fuga)
+                {
+                    Console.WriteLine("\n!!! SEI RIUCITO A SCAPPARE !!!\n");
+                    /* SOTTRAZIONE ESPEREINZA */
+                    CalcolaPerditaEspereinza(utente, eroe, mostro);
+                }
+                else
+                {
+
+                    Console.WriteLine("\n!!! NON SEI RIUCITO A SCAPPARE !!!\n");
+                    mostro.Attacca(eroe);
+                    Console.WriteLine($"{mostro.Nome} ti attacca! Ti toglie {mostro.Arma.Danno} punti vita. ");
+
+                    if (eroe.PuntiVita > 0)
+                    {
+                        /* GLI DICO QUANTI PUNTI VITA HA */
+                        Console.WriteLine($"Punti vita rimanenti {eroe.PuntiVita}\n");
+                        /* CHIEDO SE VUOLE SCAPPARE DI NUOVO O COMBATTERE*/
+                        do
+                        {
+                            Console.WriteLine("1 x COMBATTERE \n2 x FUGGIRE ");
+
+                        } while (!int.TryParse(Console.ReadLine(), out scelta) || scelta < 1 || scelta > 2);
+
+                        if (scelta == 1)
+                        {
+                            /* PARTITA */
+                            bool isWin = Combattimento(eroe, mostro);
+                            /* SE HA VINTO CALCOLO PUNTEGGIO + CALCOLO LIVELLO */
+                            if (isWin)
+                            {
+                                CalcolaPunteggioLivello(utente, eroe, mostro);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("--- !!! IL TUO EROE HA FINITO LA VITA !!! ---");
+                        /* avendo finto i punti vita per uscire dal ciclo gli metto la fuga a true*/
+                        fuga = true;
+                    }
+                }
+            } while (!fuga);
         }
 
         private static Eroe SceltaEroe(Utente utente)
         {
             // carico la lista degli eroi dell'utente 
             List<Eroe> eroi = EroeServices.GetEroi(utente);
-            bool conversione = false;
             int eroeScelto;
+            bool conversione;
             do
             {
                 // contatore della lista

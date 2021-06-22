@@ -13,12 +13,12 @@ namespace MostriVSEroi.Services
     public static class EroeServices
     {
         // LIVELLI - PUNTI ESPERIENZa >> opprotuno mettere nel DB 
-        static readonly Dictionary<int, int> livelliEsperienza = new Dictionary<int, int>() { { 1, 0 }, { 2, 30 }, { 3, 60 }, { 4, 90 }, { 5, 120 } };
+        static readonly Dictionary<int, int> livelliEsperienza = new() { { 1, 0 }, { 2, 30 }, { 3, 60 }, { 4, 90 }, { 5, 120 } };
 
         /* DICTIONARY --- KEY: LIVELLI || VALUE : PUNTI VITA >> RECUPERATI DAL DB */
         static readonly Dictionary<int, int> livelliPuntiVita = LivelloServices.GetLivelliVita();
 
-        static IEroeRepository emr = new EroeDbRepository();
+        static readonly IEroeRepository emr = new EroeDbRepository();
 
         public static List<Eroe> GetEroi(Utente utente)
         {

@@ -49,7 +49,7 @@ namespace MostriVsEroi.DbRepository
         public List<Eroe> FetchEroi(Utente utente)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
-            List<Eroe> eroiUtente = new List<Eroe>();
+            List<Eroe> eroiUtente = new();
 
             cmd.CommandText = "SELECT Eroe,Categoria,Livello,PuntiVita,Arma,Danno,Esperienza FROM dbo.UtentiConEroi WHERE Username = @Username;";
 
@@ -65,7 +65,7 @@ namespace MostriVsEroi.DbRepository
                 var dannoArma = (int)reader[5];
                 var espereinza = (int)reader[6];
 
-                Eroe e = new Eroe(nomeEroe, categoriaEroe, new Arma(nomeArma, dannoArma), livelloEroe, pvEroe, espereinza);
+                Eroe e = new(nomeEroe, categoriaEroe, new Arma(nomeArma, dannoArma), livelloEroe, pvEroe, espereinza);
                 eroiUtente.Add(e);
             }
             connection.Close();
@@ -73,7 +73,7 @@ namespace MostriVsEroi.DbRepository
         }
 
         /* METODO PRIVATO PER RECUPARE ID-UTENTE*/
-        private int FetchIdUtente(Utente utente)
+        private static int FetchIdUtente(Utente utente)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
             cmd.CommandText = "select Id from dbo.Utenti WHERE Username = @Username;";
@@ -90,7 +90,7 @@ namespace MostriVsEroi.DbRepository
         }
 
         /* METODO PER RECUPERARE ID-CATEGORIA*/
-        private int FetchIdCategoria(Eroe eroe)
+        private static int FetchIdCategoria(Eroe eroe)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
             cmd.CommandText = "select Id from dbo.CategorieEroi WHERE Nome = @Nome;";
@@ -107,7 +107,7 @@ namespace MostriVsEroi.DbRepository
         }
 
         /* METODO PER RECUPERARE ID-ARMA*/
-        private int FetchIdArma(Eroe eroe)
+        private static int FetchIdArma(Eroe eroe)
         {
             ConnessioneDbRepository.Connessione(out SqlConnection con, out SqlCommand command);
             command.CommandText = "select Id from dbo.ArmiEroi WHERE Nome = @Nome;";
@@ -156,7 +156,7 @@ namespace MostriVsEroi.DbRepository
         public Dictionary<Eroe, Utente> FetchEroiUtenti()
         {
             ConnessioneDbRepository.Connessione(out SqlConnection connection, out SqlCommand cmd);
-            Dictionary<Eroe,Utente> classifica = new Dictionary<Eroe, Utente>();
+            Dictionary<Eroe,Utente> classifica = new();
 
             cmd.CommandText = "SELECT * FROM dbo.EroiTop10;";
             SqlDataReader reader = cmd.ExecuteReader();
@@ -169,9 +169,9 @@ namespace MostriVsEroi.DbRepository
                 var username = (string)reader[4];
 
                 /* CREO EROE CON SOLO I DATI CHE MI SERVONO */
-                Eroe eroe = new Eroe(nomeEroe, categoriaEroe, livelloEroe, espereinza);
+                Eroe eroe = new(nomeEroe, categoriaEroe, livelloEroe, espereinza);
                 /* CREO UTENTE CON SOLO IL USERNAME */
-                Utente utente = new Utente(username);
+                Utente utente = new(username);
 
                 /* AGGIUNGO ALLA DICTONARY*/
                 classifica.Add(eroe, utente);
