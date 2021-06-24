@@ -35,7 +35,6 @@ namespace MostriVsEroi.View
             catch (UtenteException)
             {
                 /* GESTISCO ECCEZIONE */
-                //TODO : opportuno fare un eccezione personalizzata?
                 Console.WriteLine("\n\n!! Username già presente !!\n\n");
                 Registra();
             }

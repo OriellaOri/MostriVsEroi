@@ -1,4 +1,5 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.View;
 using MostriVSEroi.Core;
 using MostriVSEroi.Services;
 using System;
@@ -31,9 +32,20 @@ namespace MostriVSEroi.View
             catch (UtenteException)
             {
                 Console.WriteLine("\n\n!! Devi Prima Registrati !!\n\n");
-                //TODO chiedere se si vuole registare 
+                string scelta;
+                do
+                {
+                    Console.WriteLine("Vuoi Registrati? Premi S o N");
+                    scelta = Console.ReadLine();
+
+                } while (String.IsNullOrEmpty(scelta));
+
+                if (scelta.ToUpper() == "S")
+                {
+                    RegistraView.Registra();
+                }
                 Menu.MainMenu();
-            }          
+            }
         }
     }
 }

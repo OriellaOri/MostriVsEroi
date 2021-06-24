@@ -70,7 +70,7 @@ namespace MostriVsEroi.View
                     Console.WriteLine($"Premi {contaggio++} per LIV {i} con punti vita {livelliPuntiVita[i]}");
                 }
                 conversione = int.TryParse(Console.ReadLine(), out sceltaLivello);
-            } while (!conversione || sceltaCategoria < 1 || sceltaCategoria > categorie.Count);
+            } while (!conversione || sceltaLivello < 1 || sceltaLivello > categorie.Count);
 
             /* CREO IL NUOVO MOSTRO */
             Mostro newMostro = new(nome, categoriaSelezioanta, sceltaLivello, nuovaArma, livelliPuntiVita[sceltaLivello]);

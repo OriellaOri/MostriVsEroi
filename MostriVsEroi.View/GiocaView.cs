@@ -35,7 +35,14 @@ namespace MostriVSEroi.View
                     {
                         eroe = SceltaEroe(utente);
                     }
-                }
+                    else
+                    /* RICARICO LA VITA */
+                    {
+                            eroe.PuntiVita = EroeServices.RicaricaVita(eroe);
+                        if (eroe.PuntiVita == 0)
+                            throw new ArgumentNullException(); 
+                    }
+                }                
 
                 /* SCELTA MOSTRO */
                 Mostro mostro = MostroServices.SceltaMostro(eroe);
@@ -166,7 +173,6 @@ namespace MostriVSEroi.View
             Console.WriteLine("Hai Vinto!! ");
             return true;
         }
-
 
         private static void GiocoFuga(Utente utente, Eroe eroe, Mostro mostro)
         {

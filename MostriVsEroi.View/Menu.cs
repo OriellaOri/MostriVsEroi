@@ -67,7 +67,6 @@ namespace MostriVSEroi.View
                         EroeView.EliminaEroe(utente);
                         break;
                     case "0":
-                        Console.WriteLine("Ciao alla prossima");
                         vuoiContinuare = false;
                         break;
                     default:
@@ -114,7 +113,6 @@ namespace MostriVSEroi.View
                         EroeView.MostraClassifica();
                         break;
                     case "0":
-                        Console.WriteLine("Ciao alla prossima");
                         vuoiContinuare = false;
                         break;
                     default:

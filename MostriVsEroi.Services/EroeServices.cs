@@ -38,6 +38,19 @@ namespace MostriVSEroi.Services
             emr.DeleteEroe(utente, eroe);
         }
 
+        public static int RicaricaVita(Eroe eroe)
+        {
+            // dato l'eroe recupero i suoi dati basi e li restituisco 
+            foreach(int i in livelliPuntiVita.Keys)
+            {
+                if(i == eroe.Livello)
+                {
+                    return livelliPuntiVita[i];
+                }
+            }
+            return 0;
+        }
+
         public static int CalcoloEsperienza(Mostro mostro)
         {
             /* CALCOLO QUANTO ESPEREINZA OTTENGO DALLA BATTAGLIA*/
