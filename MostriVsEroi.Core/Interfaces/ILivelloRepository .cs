@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MostriVsEroi.Core
+namespace MostriVsEroi.Core.Interfaces
 {
     public interface ILivelloRepository
     {

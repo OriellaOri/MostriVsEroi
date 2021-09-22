@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MostriVsEroi.Core
+namespace MostriVsEroi.Core.Entities
 {
     public class UtenteException : Exception
     {

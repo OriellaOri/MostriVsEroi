@@ -1,4 +1,5 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

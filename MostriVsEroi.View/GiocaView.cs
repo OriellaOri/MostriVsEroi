@@ -1,10 +1,7 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.Core.Entities;
 using MostriVSEroi.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MostriVSEroi.View
 {

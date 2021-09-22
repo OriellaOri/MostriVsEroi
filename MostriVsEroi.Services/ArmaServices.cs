@@ -1,7 +1,8 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.Core.Entities;
+using MostriVsEroi.Core.Interfaces;
 using MostriVsEroi.DbRepository;
 using MostriVsEroi.MockRepository;
-using MostriVSEroi.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

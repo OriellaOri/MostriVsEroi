@@ -1,4 +1,4 @@
-﻿using MostriVSEroi.Core;
+﻿using MostriVsEroi.Core.Entities;
 using System;
 
 namespace MostriVSEroi.ViewServices

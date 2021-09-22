@@ -1,5 +1,6 @@
 ﻿using MostriVsEroi.Core;
-using MostriVSEroi.Core;
+using MostriVsEroi.Core.Entities;
+using MostriVsEroi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

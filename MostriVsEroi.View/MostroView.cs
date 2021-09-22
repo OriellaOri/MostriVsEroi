@@ -1,5 +1,5 @@
-﻿using MostriVsEroi.Services;
-using MostriVSEroi.Core;
+﻿using MostriVsEroi.Core.Entities;
+using MostriVsEroi.Services;
 using MostriVSEroi.Services;
 using System;
 using System.Collections.Generic;

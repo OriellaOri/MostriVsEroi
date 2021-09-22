@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MostriVSEroi.Core
+namespace MostriVsEroi.Core.Entities
 {
     public class Utente
     {

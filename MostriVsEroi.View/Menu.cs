@@ -1,5 +1,5 @@
-﻿using MostriVsEroi.View;
-using MostriVSEroi.Core;
+﻿using MostriVsEroi.Core.Entities;
+using MostriVsEroi.View;
 using System;
 
 namespace MostriVSEroi.View

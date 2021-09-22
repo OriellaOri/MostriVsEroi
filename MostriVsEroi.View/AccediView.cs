@@ -1,6 +1,6 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.Core.Entities;
 using MostriVsEroi.View;
-using MostriVSEroi.Core;
 using MostriVSEroi.Services;
 using System;
 using System.Collections.Generic;

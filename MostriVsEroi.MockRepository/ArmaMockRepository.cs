@@ -1,5 +1,6 @@
 ﻿using MostriVsEroi.Core;
-using MostriVSEroi.Core;
+using MostriVsEroi.Core.Entities;
+using MostriVsEroi.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace MostriVsEroi.MockRepository
         public List<Arma> FetchArmi()
         {
             /* LISTA DI ARMI CHE SARANNO POI UNA TABELLA E FILTARE CON QUERY A SECONDA DEL EROE*/
-            List<Arma> armi = new List<Arma>();
+            List<Arma> armi = new ();
             Arma a = new Arma("Alabarda", 15);
             Arma a1 = new Arma("Bacchetta", 5);
             armi.Add(a1);

@@ -1,4 +1,5 @@
 ﻿using MostriVsEroi.Core;
+using MostriVsEroi.Core.Interfaces;
 using MostriVsEroi.DbRepository;
 using System;
 using System.Collections.Generic;
